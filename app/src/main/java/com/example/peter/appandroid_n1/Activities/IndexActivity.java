@@ -1,7 +1,9 @@
-package com.example.peter.appandroid_n1;
+package com.example.peter.appandroid_n1.Activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.peter.appandroid_n1.R;
 
 public class IndexActivity extends AppCompatActivity {
 

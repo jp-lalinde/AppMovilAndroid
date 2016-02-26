@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">AppAndroid-n1</string>
+    <string name="title_activity_mostrar_categorias">MostrarCategoriasActivity</string>
 </resources>

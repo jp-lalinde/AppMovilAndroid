@@ -8,12 +8,22 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".IndexActivity">
+        <activity android:name=".Activities.IndexActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".Activities.MostrarOfertaActivity" />
+        <activity
+            android:name=".Activities.MostrarCategoriasActivity"
+            android:label="@string/title_activity_mostrar_categorias"
+            android:parentActivityName=".Activities.IndexActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.peter.appandroid_n1.Activities.IndexActivity" />
         </activity>
     </application>
 
