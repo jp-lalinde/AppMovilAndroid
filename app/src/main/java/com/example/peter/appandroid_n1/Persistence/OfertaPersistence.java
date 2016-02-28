@@ -45,6 +45,7 @@ public class OfertaPersistence {
                 c.moveToNext();
             }
         }
+        c.close();
          return ofertas;
     }
 

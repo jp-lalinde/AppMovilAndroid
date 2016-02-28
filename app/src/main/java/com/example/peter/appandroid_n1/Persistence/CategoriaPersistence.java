@@ -43,6 +43,7 @@ public class CategoriaPersistence {
                 c.moveToNext();
             }
         }
+        c.close();
 
         return categorias;
     }
