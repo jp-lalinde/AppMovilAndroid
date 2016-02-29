@@ -54,9 +54,6 @@ public class CategoriaSaludFragment extends ListFragment implements OnItemClickL
         IndexCustomList adapter = new IndexCustomList(getActivity(),web,imageId);
         setListAdapter(adapter);
         getListView().setOnItemClickListener(this);
-//        ArrayAdapter adapter = ArrayAdapter.createFromResource(getActivity(), R.array.Planets, android.R.layout.simple_list_item_1);
-//        setListAdapter(adapter);
-//        getListView().setOnItemClickListener(this);
     }
 
 
@@ -69,21 +66,6 @@ public class CategoriaSaludFragment extends ListFragment implements OnItemClickL
         i.putExtra("oferta", oferta);
         startActivity(i);
     }
-//    @Override
-//    public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
-//        String oferta = ((TextView)view).getText().toString();
-//        //Toast.makeText(getActivity(), "Item: " + promo, Toast.LENGTH_SHORT).show();
-//        Intent i = new Intent(getActivity().getApplicationContext(), MostrarOfertaActivity.class);
-//
-//        i.putExtra("oferta", oferta);
-//        startActivity(i);
-//
-//    }
 
-//    @Override
-//    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//        Toast.makeText(getActivity(), "You Clicked at " +web[+ position], Toast.LENGTH_SHORT).show();
-//
-//    }
 
 }
