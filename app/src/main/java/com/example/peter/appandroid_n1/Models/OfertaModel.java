@@ -23,7 +23,8 @@ public class OfertaModel {
         precio = pPrecio;
         fechaInicio = pFechaInicio;
         fechaFin = pFechaFin;
-        flyer = BitmapFactory.decodeByteArray(pFlyer, 0, pFlyer.length);
+        //TODO Descomentar cuando se envíe un byte[] válido (no nulo)
+        //flyer = BitmapFactory.decodeByteArray(pFlyer, 0, pFlyer.length);
     }
 
     //Metodos

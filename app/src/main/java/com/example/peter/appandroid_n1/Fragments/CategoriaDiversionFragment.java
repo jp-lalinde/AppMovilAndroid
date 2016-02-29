@@ -21,6 +21,7 @@ public class CategoriaDiversionFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+
         TextView myText = new TextView(getActivity());
         myText.setText("Fragmento de diversion");
         myText.setGravity(Gravity.CENTER);

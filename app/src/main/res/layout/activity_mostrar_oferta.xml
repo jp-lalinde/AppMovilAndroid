@@ -14,7 +14,7 @@
         android:layout_height="200dp"
         android:id="@+id/flyerOferta"
         android:layout_marginTop="41dp"
-        android:src="@drawable/promo_bodyt"
+        android:src="@drawable/placeholder"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
@@ -31,7 +31,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
+        android:text="Precio Aqui"
         android:id="@+id/txtPrecio"
         android:layout_alignTop="@+id/txtFechaInicio"
         android:layout_alignStart="@+id/textView" />
@@ -48,7 +48,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
+        android:text="Fecha Inicio Aqui"
         android:id="@+id/txtFechaInicio"
         android:layout_below="@+id/textView3"
         android:layout_alignStart="@+id/textView2"
@@ -67,7 +67,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
+        android:text="Fecha Fin Aqui"
         android:id="@+id/txtFechaFin"
         android:layout_marginBottom="57dp"
         android:layout_alignParentBottom="true"
