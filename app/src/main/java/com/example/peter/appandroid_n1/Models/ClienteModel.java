@@ -1,9 +1,11 @@
 package com.example.peter.appandroid_n1.Models;
 
+import com.strongloop.android.loopback.Model;
+
 /**
  * Created by peter on 26/02/2016.
  */
-public class ClienteModel {
+public class ClienteModel extends Model{
 
     //Atributos
     private int noId;
@@ -20,12 +22,12 @@ public class ClienteModel {
 
     //Metodos
 
-    public int getId()
+    public int getIdCliente()
     {
         return noId;
     }
 
-    public void setId(int pId)
+    public void setIdCliente(int pId)
     {
         noId = pId;
     }

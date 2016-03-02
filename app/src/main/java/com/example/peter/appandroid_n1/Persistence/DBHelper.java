@@ -4,6 +4,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.peter.appandroid_n1.Constantes.ConstantesGlobales;
+
 /**
  * Created by peter on 26/02/2016.
  */
@@ -15,15 +17,17 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(
-                "CREATE TABLE OFERTA (id BIGINT primary key , precio DOUBLE , fecha_inicio DATETIME , fecha_final DATETIME , flyer BLOB ); " +
-                        "CREATE TABLE CATEGORIA (id INT2 primary key , nombre TEXT ); " +
-                        "CREATE TABLE CLIENTE ( no_id BIGINT primary key , auth_token TEXT , logged BOOLEAN ); "
-        );
+        System.out.println("Creo la tabla oferta");
+        db.execSQL("CREATE TABLE OFERTA (id BIGINT PRIMARY KEY, precio DOUBLE, fecha_inicio DATETIME, fecha_final DATETIME, flyer STRING, id_categoria BIGINT);");
+        System.out.println("Creo la tabla categoria");
+        db.execSQL("CREATE TABLE CATEGORIA (id INT2 PRIMARY KEY, nombre TEXT );");
+        System.out.println("Creo la tabla cliente");
+        db.execSQL("CREATE TABLE CLIENTE (no_id BIGINT PRIMARY KEY, auth_token TEXT, logged BOOLEAN);");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
     }
 
 

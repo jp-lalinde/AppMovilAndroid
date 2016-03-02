@@ -1,6 +1,7 @@
 package com.example.peter.appandroid_n1.Fragments;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
@@ -14,24 +15,23 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.peter.appandroid_n1.Activities.MostrarOfertaActivity;
+import com.example.peter.appandroid_n1.Constantes.ConstantesGlobales;
 import com.example.peter.appandroid_n1.CustomLists.IndexCustomList;
+import com.example.peter.appandroid_n1.Models.OfertaModel;
 import com.example.peter.appandroid_n1.R;
+import com.example.peter.appandroid_n1.Servicios.CategoriaService;
+import com.example.peter.appandroid_n1.Servicios.OfertaService;
+
+import java.util.List;
 
 /**
  * Created by usuario on 2/28/2016.
  */
 public class CategoriaSaludFragment extends ListFragment implements OnItemClickListener {
 
-    String[]web={
-            "Promocion Dolex 2x1",
-            "Spa para 2",
-            "1 año de membresía BodyTech"
-    };
-    Integer[] imageId ={
-            R.drawable.promo1,
-            R.drawable.promo2,
-            R.drawable.promo3
-    };
+
+    private String[]web;
+    private Bitmap[]imageId;
 
     public CategoriaSaludFragment()
     {
@@ -42,7 +42,6 @@ public class CategoriaSaludFragment extends ListFragment implements OnItemClickL
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.list_fragment, container, false);
-
         return view;
     }
 
@@ -50,7 +49,20 @@ public class CategoriaSaludFragment extends ListFragment implements OnItemClickL
     public void onActivityCreated(Bundle savedInstanceState)
     {
         super.onActivityCreated(savedInstanceState);
+
+        System.out.println("Llego al fragmento de salud");
         //TODO Desplegar las ofertas en la lista
+        OfertaService ofertaService = new OfertaService();
+        List<OfertaModel> ofertas= ofertaService.getTodasLasOfertasLocalPorCategoria(super.getActivity(), ConstantesGlobales.CATEGORIA_SALUD);
+        imageId=new Bitmap[ofertas.size()];
+        web = new String[ofertas.size()];
+
+        for(int i=0;i<ofertas.size();i++)
+        {
+            imageId[i]=ofertas.get(i).getFlyer();
+            web[i]=String.valueOf(ofertas.get(i).getIdOferta());
+            System.out.println(web[i]);
+        }
         IndexCustomList adapter = new IndexCustomList(getActivity(),web,imageId);
         setListAdapter(adapter);
         getListView().setOnItemClickListener(this);
@@ -60,11 +72,11 @@ public class CategoriaSaludFragment extends ListFragment implements OnItemClickL
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position,long id)
     {
-        String oferta = web[+ position];
+        String idOferta = web[+ position];
         Intent i = new Intent(getActivity().getApplicationContext(), MostrarOfertaActivity.class);
-
-        i.putExtra("oferta", oferta);
+        i.putExtra("oferta", idOferta);
         startActivity(i);
+
     }
 
 

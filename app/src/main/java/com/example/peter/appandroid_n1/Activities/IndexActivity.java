@@ -19,8 +19,13 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+import com.example.peter.appandroid_n1.Models.OfertaModel;
 import com.example.peter.appandroid_n1.PageAdapters.CategoriaPagerAdapter;
 import com.example.peter.appandroid_n1.R;
+import com.example.peter.appandroid_n1.Servicios.CategoriaService;
+import com.example.peter.appandroid_n1.Servicios.OfertaService;
+
+import java.util.List;
 
 public class IndexActivity extends AppCompatActivity {
 
@@ -42,6 +47,33 @@ public class IndexActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        //INICIO DATOS MOCK
+        CategoriaService categoriaService = new CategoriaService();
+        OfertaService ofertaService = new OfertaService();
+
+        //Flush de tablas
+        //categoriaService.truncateTables(this);
+        //ofertaService.truncateTables(this);
+
+        //Prueba de datos en la tabla categoria
+        //System.out.println("El nombre de la categoria es "+categoriaService.getNombreCategoriaPorId(this,0));
+
+        //Prueba de datos en la tabla oferta
+        //System.out.println("La fecha inicial de la oferta es "+ofertaService.getOfertaPorId(this,1).getFechaInicio());
+        //System.out.println("ID de la categoria de la oferta es "+ofertaService.getOfertaPorId(this,1).getIdCategoria());
+       // System.out.println("Llamo a todas las ofertas");
+        //List<OfertaModel> ofertas= ofertaService.getTodasLasOfertasEnLocal(this);
+        //System.out.println("Usando todas las ofertas, la fecha inicio es:"+ofertas.get(0).getFechaInicio());
+
+        //Insercion de datos mock en categoria
+        //categoriaService.insertarDatosMock(this);
+
+        //Insercion de datos mock en oferta
+        //ofertaService.insertarDatosMock(this);
+        //FIN DATOS MOCK
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_index);
 
@@ -49,7 +81,6 @@ public class IndexActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-
         mPagerAdapter = new CategoriaPagerAdapter(getSupportFragmentManager());
         mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
         // Set up the ViewPager with the sections adapter.
