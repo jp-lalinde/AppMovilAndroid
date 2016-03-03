@@ -5,7 +5,7 @@ import android.graphics.BitmapFactory;
 import android.util.Base64;
 import android.util.Log;
 
-import com.strongloop.android.loopback.Model;
+//import com.strongloop.android.loopback.Model;
 
 import java.io.ByteArrayOutputStream;
 
@@ -13,7 +13,7 @@ import java.io.ByteArrayOutputStream;
 /**
  * Created by peter on 26/02/2016.
  */
-public class OfertaModel extends Model{
+public class OfertaModel {
 
     //Atributos
     private long id;

@@ -15,3 +15,10 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+#RETROFIT RULES
+  -dontwarn retrofit2.**
+  -keep class retrofit2.** { *; }
+  -keepattributes Signature
+  -keepattributes Exceptions
+#END

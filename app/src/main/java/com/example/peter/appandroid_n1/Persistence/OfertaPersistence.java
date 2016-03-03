@@ -120,10 +120,34 @@ public class OfertaPersistence {
         db.execSQL("INSERT INTO " + ConstantesGlobales.OFERTA
                         + " (" + ConstantesGlobales.OFERTA_ID + "," + ConstantesGlobales.OFERTA_PRECIO + ","
                         + ConstantesGlobales.OFERTA_FECHA_INICIO + "," + ConstantesGlobales.OFERTA_FECHA_FIN + ","
-                        + ConstantesGlobales.OFERTA_FLYER +","+ ConstantesGlobales.OFERTA_ID_CATEGORIA+") "
+                        + ConstantesGlobales.OFERTA_FLYER + "," + ConstantesGlobales.OFERTA_ID_CATEGORIA + ") "
                         + "VALUES("
-                        + 1 + ", " + 1000 + ", \'2016/03/03\', \'2016/04/03\', \'" + ConstantesGlobales.imgMock + "\', "+0+")"
+                        + 1 + ", " + 1000 + ", \'2016/03/03\', \'2016/04/03\', \'" + ConstantesGlobales.imgMock + "\', " + 0 + ")"
         );
     }
 
+    /**
+     * Persiste una lista de objetos oferteModel
+     * @param list - lista de ofertas que se va a guardar.
+     */
+    public void persistAll(List<OfertaModel> list){
+        db.beginTransaction();
+        for( OfertaModel model : list ){
+            long id = (long) model.getIdOferta();
+            double precio = model.getPrecio() ;
+            String fechaInicio = model.getFechaInicio();
+            String fechaFin = model.getFechaFin();
+            String flyer = model.getEncodedFlyer();
+            long idCategoria = model.getIdCategoria() ;
+            db.execSQL("INSERT INTO" + ConstantesGlobales.OFERTA
+                            + " (" + ConstantesGlobales.OFERTA_ID + "," + ConstantesGlobales.OFERTA_PRECIO + ","
+                            + ConstantesGlobales.OFERTA_FECHA_INICIO + "," + ConstantesGlobales.OFERTA_FECHA_FIN + ","
+                            + ConstantesGlobales.OFERTA_FLYER + ","+ConstantesGlobales.OFERTA_ID_CATEGORIA+") "
+                            + "VALUES("
+                            + id + ", " + precio + ", \'" + fechaInicio + "\', \'" + fechaFin + "\', \'" + flyer + "\', "+idCategoria+")"
+            );
+
+        }
+        db.endTransaction();
+    }
 }

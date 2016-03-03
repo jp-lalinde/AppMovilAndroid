@@ -18,6 +18,7 @@ import com.example.peter.appandroid_n1.Activities.MostrarOfertaActivity;
 import com.example.peter.appandroid_n1.Constantes.ConstantesGlobales;
 import com.example.peter.appandroid_n1.CustomLists.IndexCustomList;
 import com.example.peter.appandroid_n1.Models.OfertaModel;
+import com.example.peter.appandroid_n1.Persistence.OfertaPersistence;
 import com.example.peter.appandroid_n1.R;
 import com.example.peter.appandroid_n1.Servicios.CategoriaService;
 import com.example.peter.appandroid_n1.Servicios.OfertaService;
@@ -52,8 +53,10 @@ public class CategoriaSaludFragment extends ListFragment implements OnItemClickL
 
         System.out.println("Llego al fragmento de salud");
         //TODO Desplegar las ofertas en la lista
-        OfertaService ofertaService = new OfertaService();
-        List<OfertaModel> ofertas= ofertaService.getTodasLasOfertasLocalPorCategoria(super.getActivity(), ConstantesGlobales.CATEGORIA_SALUD);
+        OfertaService serv = new OfertaService();
+        serv.pullAndStoreTopOfertas(super.getActivity());
+        OfertaPersistence persistence = new OfertaPersistence(super.getActivity());
+        List<OfertaModel> ofertas = persistence.getOfertaPorCategoria(ConstantesGlobales.CATEGORIA_SALUD);
         imageId=new Bitmap[ofertas.size()];
         web = new String[ofertas.size()];
 
