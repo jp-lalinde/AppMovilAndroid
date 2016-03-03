@@ -49,26 +49,26 @@ public class CategoriaSaludFragment extends ListFragment implements OnItemClickL
     @Override
     public void onActivityCreated(Bundle savedInstanceState)
     {
-        super.onActivityCreated(savedInstanceState);
-
-        System.out.println("Llego al fragmento de salud");
-        //TODO Desplegar las ofertas en la lista
-        OfertaService serv = new OfertaService();
-        serv.pullAndStoreTopOfertas(super.getActivity());
-        OfertaPersistence persistence = new OfertaPersistence(super.getActivity());
-        List<OfertaModel> ofertas = persistence.getOfertaPorCategoria(ConstantesGlobales.CATEGORIA_SALUD);
-        imageId=new Bitmap[ofertas.size()];
-        web = new String[ofertas.size()];
-
-        for(int i=0;i<ofertas.size();i++)
-        {
-            imageId[i]=ofertas.get(i).getFlyer();
-            web[i]=String.valueOf(ofertas.get(i).getIdOferta());
-            System.out.println(web[i]);
-        }
-        IndexCustomList adapter = new IndexCustomList(getActivity(),web,imageId);
-        setListAdapter(adapter);
-        getListView().setOnItemClickListener(this);
+//        super.onActivityCreated(savedInstanceState);
+//
+//        System.out.println("Llego al fragmento de salud");
+//        TODO Desplegar las ofertas en la lista
+//        OfertaService serv = new OfertaService();
+//        serv.pullAndStoreTopOfertas(super.getActivity());
+//        OfertaPersistence persistence = new OfertaPersistence(super.getActivity());
+//        List<OfertaModel> ofertas = persistence.getOfertaPorCategoria(ConstantesGlobales.CATEGORIA_SALUD);
+//        imageId=new Bitmap[ofertas.size()];
+//        web = new String[ofertas.size()];
+//
+//        for(int i=0;i<ofertas.size();i++)
+//        {
+//            imageId[i]=ofertas.get(i).getFlyer();
+//            web[i]=String.valueOf(ofertas.get(i).getIdOferta());
+//            System.out.println(web[i]);
+//        }
+//        IndexCustomList adapter = new IndexCustomList(getActivity(),web,imageId);
+//        setListAdapter(adapter);
+//        getListView().setOnItemClickListener(this);
     }
 
 

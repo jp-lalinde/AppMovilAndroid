@@ -27,6 +27,10 @@ public class OfertaPersistence {
     // Metodos
     //--------------------------------------------------------------------
 
+    public SQLiteDatabase getDb(){
+        return this.db;
+    }
+
     public List<OfertaModel> getTopOfertas() {
 
         List<OfertaModel> ofertas = new ArrayList<OfertaModel>();
@@ -131,23 +135,23 @@ public class OfertaPersistence {
      * @param list - lista de ofertas que se va a guardar.
      */
     public void persistAll(List<OfertaModel> list){
-        db.beginTransaction();
         for( OfertaModel model : list ){
             long id = (long) model.getIdOferta();
             double precio = model.getPrecio() ;
             String fechaInicio = model.getFechaInicio();
             String fechaFin = model.getFechaFin();
-            String flyer = model.getEncodedFlyer();
+            String flyer = model.getFlyer();
             long idCategoria = model.getIdCategoria() ;
-            db.execSQL("INSERT INTO" + ConstantesGlobales.OFERTA
+            db.execSQL("INSERT INTO " + ConstantesGlobales.OFERTA
                             + " (" + ConstantesGlobales.OFERTA_ID + "," + ConstantesGlobales.OFERTA_PRECIO + ","
                             + ConstantesGlobales.OFERTA_FECHA_INICIO + "," + ConstantesGlobales.OFERTA_FECHA_FIN + ","
                             + ConstantesGlobales.OFERTA_FLYER + ","+ConstantesGlobales.OFERTA_ID_CATEGORIA+") "
                             + "VALUES("
                             + id + ", " + precio + ", \'" + fechaInicio + "\', \'" + fechaFin + "\', \'" + flyer + "\', "+idCategoria+")"
             );
-
+            System.out.println( " << Oferta[id ="+ id +"] was saved >> ") ;
         }
-        db.endTransaction();
     }
+
+
 }

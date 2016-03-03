@@ -60,6 +60,9 @@ public class IndexActivity extends AppCompatActivity {
         //System.out.println("El nombre de la categoria es "+categoriaService.getNombreCategoriaPorId(this,0));
 
         //Prueba de datos en la tabla oferta
+        ofertaService.pullAndSave_TopOfertasByCategoria( this );
+
+
         //System.out.println("La fecha inicial de la oferta es "+ofertaService.getOfertaPorId(this,1).getFechaInicio());
         //System.out.println("ID de la categoria de la oferta es "+ofertaService.getOfertaPorId(this,1).getIdCategoria());
        // System.out.println("Llamo a todas las ofertas");

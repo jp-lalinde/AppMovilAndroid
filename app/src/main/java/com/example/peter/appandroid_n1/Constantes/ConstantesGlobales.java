@@ -6,7 +6,7 @@ package com.example.peter.appandroid_n1.Constantes;
 public class ConstantesGlobales {
 
     //URL de servidor Heroku
-    public static final String URL_SERVER="ofertas-api-rest.herokuapp.com/api";
+    public static final String URL_SERVER="http://ofertas-api-rest.herokuapp.com/api/";
 
     //Nombre de tabla oferta
     public static final String OFERTA="OFERTA";
