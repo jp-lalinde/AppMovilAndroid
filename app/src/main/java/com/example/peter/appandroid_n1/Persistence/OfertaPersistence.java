@@ -137,7 +137,7 @@ public class OfertaPersistence {
             double precio = model.getPrecio() ;
             String fechaInicio = model.getFechaInicio();
             String fechaFin = model.getFechaFin();
-            String flyer = model.getEncodedFlyer();
+            String flyer = model.getFlyer();
             long idCategoria = model.getIdCategoria() ;
             db.execSQL("INSERT INTO" + ConstantesGlobales.OFERTA
                             + " (" + ConstantesGlobales.OFERTA_ID + "," + ConstantesGlobales.OFERTA_PRECIO + ","

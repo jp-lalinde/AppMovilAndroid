@@ -1,5 +1,6 @@
 package com.example.peter.appandroid_n1.Activities;
 
+import android.content.Context;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 
 import com.example.peter.appandroid_n1.Models.OfertaModel;
 import com.example.peter.appandroid_n1.PageAdapters.CategoriaPagerAdapter;
+import com.example.peter.appandroid_n1.Persistence.CategoriaPersistence;
 import com.example.peter.appandroid_n1.R;
 import com.example.peter.appandroid_n1.Servicios.CategoriaService;
 import com.example.peter.appandroid_n1.Servicios.OfertaService;
@@ -40,6 +42,9 @@ public class IndexActivity extends AppCompatActivity {
     private CategoriaPagerAdapter mPagerAdapter;
     private TabLayout mTabLayout;
 
+    //Contexto estático de la aplicación
+    public static Context appContext;
+
     /**
      * The {@link ViewPager} that will host the section contents.
      */
@@ -48,16 +53,20 @@ public class IndexActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        //INICIO DATOS MOCK
         CategoriaService categoriaService = new CategoriaService();
-        OfertaService ofertaService = new OfertaService();
+        categoriaService.pullAndStoreCategorias(this);
+        CategoriaPersistence persistenceCategoria = new CategoriaPersistence(this);
+        //OfertaService ofertaService = new OfertaService();
+
+        //INICIO DATOS MOCK
+
 
         //Flush de tablas
         //categoriaService.truncateTables(this);
         //ofertaService.truncateTables(this);
 
         //Prueba de datos en la tabla categoria
-        //System.out.println("El nombre de la categoria es "+categoriaService.getNombreCategoriaPorId(this,0));
+        System.out.println("El nombre de la categoria es " +persistenceCategoria.getNombreCategoria(1));
 
         //Prueba de datos en la tabla oferta
         //System.out.println("La fecha inicial de la oferta es "+ofertaService.getOfertaPorId(this,1).getFechaInicio());
@@ -75,6 +84,8 @@ public class IndexActivity extends AppCompatActivity {
 
 
         super.onCreate(savedInstanceState);
+        appContext = this.getApplicationContext();
+
         setContentView(R.layout.activity_index);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

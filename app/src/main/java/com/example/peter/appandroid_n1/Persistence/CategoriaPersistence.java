@@ -56,7 +56,7 @@ public class CategoriaPersistence {
 
     public void insertCategoria(long id, String nombre)
     {
-        db.execSQL("INSERT INTO" + ConstantesGlobales.CATEGORIA
+        db.execSQL("INSERT INTO " + ConstantesGlobales.CATEGORIA
                         + " (" + ConstantesGlobales.CATEGORIA_ID + "," + ConstantesGlobales.CATEGORIA_NOMBRE + ") "
                         + "VALUES("
                         + id + ", \'" + nombre + "\')"
@@ -92,5 +92,24 @@ public class CategoriaPersistence {
                         + "VALUES("
                         + 0 + ", \'Salud\')"
         );
+    }
+
+    /**
+     * Persiste una lista de objetos categoriaModel
+     * @param list - lista de ofertas que se va a guardar.
+     */
+    public void persistAll(List<CategoriaModel> list){
+        db.beginTransaction();
+        for( CategoriaModel model : list ){
+            String nombre = model.getNombre();
+            long id = model.getIdCategoria();
+
+            db.execSQL("INSERT INTO " + ConstantesGlobales.CATEGORIA
+                            + " (" + ConstantesGlobales.CATEGORIA_ID + "," + ConstantesGlobales.CATEGORIA_NOMBRE + ") "
+                            + "VALUES("
+                            + id + ", \'" + nombre + "\')"
+            );
+        }
+        db.endTransaction();
     }
 }

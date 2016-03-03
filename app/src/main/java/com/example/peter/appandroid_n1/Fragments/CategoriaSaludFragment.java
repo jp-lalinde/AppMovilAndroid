@@ -2,8 +2,10 @@ package com.example.peter.appandroid_n1.Fragments;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +35,7 @@ public class CategoriaSaludFragment extends ListFragment implements OnItemClickL
 
     private String[]web;
     private Bitmap[]imageId;
+    private int position;
 
     public CategoriaSaludFragment()
     {
@@ -50,19 +53,20 @@ public class CategoriaSaludFragment extends ListFragment implements OnItemClickL
     public void onActivityCreated(Bundle savedInstanceState)
     {
         super.onActivityCreated(savedInstanceState);
+        position = getArguments().getInt("position");
 
-        System.out.println("Llego al fragmento de salud");
-        //TODO Desplegar las ofertas en la lista
+        System.out.println("Llego al fragmento");
         OfertaService serv = new OfertaService();
         serv.pullAndStoreTopOfertas(super.getActivity());
         OfertaPersistence persistence = new OfertaPersistence(super.getActivity());
-        List<OfertaModel> ofertas = persistence.getOfertaPorCategoria(ConstantesGlobales.CATEGORIA_SALUD);
+        List<OfertaModel> ofertas = persistence.getOfertaPorCategoria(position+1);
         imageId=new Bitmap[ofertas.size()];
         web = new String[ofertas.size()];
 
         for(int i=0;i<ofertas.size();i++)
         {
-            imageId[i]=ofertas.get(i).getFlyer();
+            byte[] flyer = Base64.decode(ofertas.get(i).getFlyer().getBytes(),0);
+            imageId[i]= BitmapFactory.decodeByteArray(flyer, 0, flyer.length);
             web[i]=String.valueOf(ofertas.get(i).getIdOferta());
             System.out.println(web[i]);
         }

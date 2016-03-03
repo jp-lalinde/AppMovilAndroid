@@ -1,7 +1,7 @@
 package com.example.peter.appandroid_n1.Servicios.InterfacesREST;
 
 import com.example.peter.appandroid_n1.Models.OfertaModel;
-import com.strongloop.android.loopback.callbacks.ListCallback;
+
 
 import java.util.List;
 import java.util.Map;

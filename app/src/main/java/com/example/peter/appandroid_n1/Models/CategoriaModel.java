@@ -1,21 +1,25 @@
 package com.example.peter.appandroid_n1.Models;
 
-import com.strongloop.android.loopback.Model;
 
 /**
  * Created by peter on 26/02/2016.
  */
-public class CategoriaModel extends Model{
+public class CategoriaModel {
 
     //Atributos
-    private int id;
-    private String nombre;
+    int id;
+    String nombre;
 
     //Constructor
     public CategoriaModel(int pId, String pNombre)
     {
         id = pId;
         nombre = pNombre;
+    }
+
+    public CategoriaModel()
+    {
+
     }
 
     //Metodos

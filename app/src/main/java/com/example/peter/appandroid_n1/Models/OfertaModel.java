@@ -16,25 +16,30 @@ import java.io.ByteArrayOutputStream;
 public class OfertaModel {
 
     //Atributos
-    private long id;
-    private double precio;
-    private String fechaInicio;
-    private String fechaFin;
-    private Bitmap flyer;
-    private long idCategoria;
+    long id;
+    double precio;
+    String fecha_inicio;
+    String fecha_final;
+    int tickets_disponibles;
+    boolean abierta;
+    int numInteresados;
+    String flyer;
+    long categoriaId;
 
     //Constructor
     public OfertaModel(long pId, double pPrecio, String pFechaInicio, String pFechaFin, String pFlyer, long pId_categoria)
     {
         id = pId;
         precio = pPrecio;
-        fechaInicio = pFechaInicio;
-        fechaFin = pFechaFin;
-        idCategoria=pId_categoria;
+        fecha_inicio = pFechaInicio;
+        fecha_final = pFechaFin;
+        categoriaId=pId_categoria;
+        flyer=pFlyer;
+    }
 
-        byte[] decodedByte = Base64.decode(pFlyer, 0);
-        //TODO Descomentar cuando se envíe un byte[] válido (no nulo)
-        flyer = BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
+    public OfertaModel()
+    {
+
     }
 
     //Metodos
@@ -61,56 +66,43 @@ public class OfertaModel {
 
     public String getFechaInicio()
     {
-        return fechaInicio;
+        return fecha_inicio;
     }
 
     public void setFechaInicio(String pFechaInicio)
     {
-        fechaInicio = pFechaInicio;
+        fecha_inicio = pFechaInicio;
     }
 
     public String getFechaFin()
     {
-        return fechaFin;
+        return fecha_final;
     }
 
     public void setFechaFin(String pFechaFin)
     {
-        fechaFin = pFechaFin;
+        fecha_final = pFechaFin;
     }
 
-    public Bitmap getFlyer()
+    public String getFlyer()
     {
         return flyer;
     }
 
-    public void setFlyer(byte[] pFlyer)
+    public void setFlyer(String pFlyer)
     {
-        flyer = BitmapFactory.decodeByteArray(pFlyer, 0, pFlyer.length);
+        flyer = pFlyer;
     }
 
-    public String getEncodedFlyer()
-    {
-        Bitmap imagex= flyer;
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        imagex.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] b = baos.toByteArray();
-        String imageEncoded = Base64.encodeToString(b,Base64.DEFAULT);
-        //Debugging
-        Log.e("LOOK", imageEncoded);
-
-        return imageEncoded;
-
-    }
 
     public long getIdCategoria()
     {
-        return idCategoria;
+        return categoriaId;
     }
 
     public void setIdCategoria(long pIdCategoria)
     {
-        idCategoria=pIdCategoria;
+        categoriaId=pIdCategoria;
     }
 
 
