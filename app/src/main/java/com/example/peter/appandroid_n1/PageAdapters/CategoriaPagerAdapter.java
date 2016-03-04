@@ -9,7 +9,10 @@ import com.example.peter.appandroid_n1.Activities.IndexActivity;
 import com.example.peter.appandroid_n1.Fragments.CategoriaSaludFragment;
 import com.example.peter.appandroid_n1.Models.CategoriaModel;
 import com.example.peter.appandroid_n1.Persistence.CategoriaPersistence;
+import com.example.peter.appandroid_n1.Persistence.PersistenceManager;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,15 +38,37 @@ public class CategoriaPagerAdapter extends FragmentStatePagerAdapter{
     @Override
     public int getCount()
     {
-        CategoriaPersistence persistencia = new CategoriaPersistence(IndexActivity.appContext);
-        List<CategoriaModel>categorias = persistencia.getCategorias();
+        CategoriaPersistence persistencia = PersistenceManager.getInstance().getCategoriaPersistence();
+        List<CategoriaModel>categorias = new ArrayList<CategoriaModel>();
+        try
+        {
+            persistencia.openDBConn();
+            categorias = persistencia.getCategorias();
+            persistencia.closeDBConn();
+        }
+        catch(SQLException e)
+        {
+
+        }
+
         return categorias.size();
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
 
-        CategoriaPersistence categoriaPersistence=new CategoriaPersistence(IndexActivity.appContext);
-        return categoriaPersistence.getNombreCategoria(new Long(position));
+        CategoriaPersistence categoriaPersistence= PersistenceManager.getInstance().getCategoriaPersistence();
+        String nombreCategoria = "";
+        try
+        {
+            categoriaPersistence.openDBConn();
+            nombreCategoria = categoriaPersistence.getNombreCategoria(new Long(position+1));
+            categoriaPersistence.closeDBConn();
+        }
+        catch(SQLException e)
+        {
+
+        }
+        return nombreCategoria;
     }
 }

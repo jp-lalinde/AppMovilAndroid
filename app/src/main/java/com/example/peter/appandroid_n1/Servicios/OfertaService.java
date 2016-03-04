@@ -5,6 +5,7 @@ import android.app.Activity;
 import com.example.peter.appandroid_n1.Constantes.ConstantesGlobales;
 import com.example.peter.appandroid_n1.Models.OfertaModel;
 import com.example.peter.appandroid_n1.Persistence.OfertaPersistence;
+import com.example.peter.appandroid_n1.Persistence.PersistenceManager;
 import com.example.peter.appandroid_n1.Servicios.InterfacesREST.InterfazRestCategoria;
 import com.example.peter.appandroid_n1.Servicios.RestAdapter.RestRequest;
 import com.example.peter.appandroid_n1.Servicios.dtos.CountDTO;
@@ -49,19 +50,19 @@ public class OfertaService {
     {
         InterfazRestCategoria categoriasApi =
                 RestRequest.construct( ConstantesGlobales.URL_SERVER, true ).create(InterfazRestCategoria.class);
-        OfertaPersistence em = new OfertaPersistence( activity ) ;
+        OfertaPersistence em = PersistenceManager.getInstance().getOfertaPersistence();
         try {
             CountDTO countdto = categoriasApi.countCategorias().execute().body();
             Map<String,String> filtros = new HashMap<String,String>();
             filtros.put( "filter[order]" , "numInteresados DESC" );
             filtros.put("filter[limit]", "10");
 
-            em.getDb().beginTransaction();
+            em.beginTran();
             for( int i = 1 ; i <= countdto.getCount() ; i++ ) {
                 List<OfertaModel> lista = categoriasApi.selectOfertasByCategoria(i, filtros).execute().body();
                 em.persistAll( lista );
             }
-            em.getDb().endTransaction();
+            em.commit();
         }catch( IOException e ){
             e.printStackTrace();
         }

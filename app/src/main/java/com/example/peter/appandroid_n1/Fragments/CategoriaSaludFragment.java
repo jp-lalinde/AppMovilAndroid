@@ -21,10 +21,12 @@ import com.example.peter.appandroid_n1.Constantes.ConstantesGlobales;
 import com.example.peter.appandroid_n1.CustomLists.IndexCustomList;
 import com.example.peter.appandroid_n1.Models.OfertaModel;
 import com.example.peter.appandroid_n1.Persistence.OfertaPersistence;
+import com.example.peter.appandroid_n1.Persistence.PersistenceManager;
 import com.example.peter.appandroid_n1.R;
 import com.example.peter.appandroid_n1.Servicios.CategoriaService;
 import com.example.peter.appandroid_n1.Servicios.OfertaService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,6 +44,7 @@ public class CategoriaSaludFragment extends ListFragment implements OnItemClickL
 
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -52,13 +55,15 @@ public class CategoriaSaludFragment extends ListFragment implements OnItemClickL
     @Override
     public void onActivityCreated(Bundle savedInstanceState)
     {
+        System.out.println("LLEGUE AL FRAGMENTO");
         super.onActivityCreated(savedInstanceState);
         position = getArguments().getInt("position");
 
         System.out.println("Llego al fragmento");
 
-        OfertaPersistence persistence = new OfertaPersistence(super.getActivity());
-        List<OfertaModel> ofertas = persistence.getOfertaPorCategoria(position+1);
+        OfertaPersistence persistence = PersistenceManager.getInstance().getOfertaPersistence();
+        List<OfertaModel> ofertas = new ArrayList<OfertaModel>();
+        ofertas = persistence.getOfertaPorCategoria(position+1);
 
         imageId=new Bitmap[ofertas.size()];
         web = new String[ofertas.size()];

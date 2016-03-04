@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.example.peter.appandroid_n1.Constantes.ConstantesGlobales;
 import com.example.peter.appandroid_n1.Models.CategoriaModel;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,18 +17,37 @@ import java.util.List;
 public class CategoriaPersistence {
 
     private SQLiteDatabase db;
+    private DBHelper helper;
 
-    public CategoriaPersistence(Context ctx){
-        DBHelper helper = new DBHelper(ctx.getApplicationContext());
-        db = helper.getWritableDatabase();
+    public CategoriaPersistence(DBHelper pHelper){
+        helper = pHelper;
+    }
+
+    public CategoriaPersistence()
+    {
+
     }
 
     //--------------------------------------------------------------------
     // Metodos
     //--------------------------------------------------------------------
 
-    public SQLiteDatabase getDb(){
-        return this.db;
+    public void beginTran(){
+        db.beginTransaction();
+    }
+
+    public void commit(){
+        db.endTransaction();
+    }
+
+    public void openDBConn() throws SQLException
+    {
+        db=helper.getWritableDatabase();
+    }
+
+    public void closeDBConn()
+    {
+        db.close();
     }
 
     public List<CategoriaModel> getCategorias()
@@ -49,7 +69,6 @@ public class CategoriaPersistence {
             }
         }
         c.close();
-
         return categorias;
     }
 
@@ -112,6 +131,7 @@ public class CategoriaPersistence {
                             + "VALUES("
                             + id + ", \'" + nombre + "\')"
             );
+            System.out.println(" << Categoria[id =" + id + "] was saved >> ") ;
         }
     }
 }

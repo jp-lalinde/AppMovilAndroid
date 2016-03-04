@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.example.peter.appandroid_n1.Models.OfertaModel;
 import com.example.peter.appandroid_n1.Persistence.OfertaPersistence;
+import com.example.peter.appandroid_n1.Persistence.PersistenceManager;
 import com.example.peter.appandroid_n1.R;
 import com.example.peter.appandroid_n1.Servicios.OfertaService;
 
@@ -21,7 +22,7 @@ public class MostrarOfertaActivity extends AppCompatActivity {
         String oferta = i.getStringExtra("oferta");
         //TODO Buscar la oferta
         //OfertaModel ofertaModel = new OfertaModel(123, 70000,"2016/03/02 06:00:00", "2016/04/02 23:00:00",null);
-        OfertaPersistence persistence = new OfertaPersistence( this );
+        OfertaPersistence persistence = PersistenceManager.getInstance().getOfertaPersistence();
         OfertaModel ofertaModel = persistence.getOfertaPorId( Long.getLong(oferta) );
 
         if(ofertaModel!=null)

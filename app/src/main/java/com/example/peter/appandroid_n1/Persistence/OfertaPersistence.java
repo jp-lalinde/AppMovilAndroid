@@ -17,18 +17,39 @@ import java.util.List;
 public class OfertaPersistence {
 
     private SQLiteDatabase db;
+    private DBHelper helper;
 
-    public OfertaPersistence(Context ctx){
-        DBHelper helper = new DBHelper(ctx.getApplicationContext());
-        db = helper.getWritableDatabase();
+    public OfertaPersistence(DBHelper pHelper){
+        helper = pHelper;
     }
+
+    public OfertaPersistence()
+    {
+
+    }
+
 
     //--------------------------------------------------------------------
     // Metodos
     //--------------------------------------------------------------------
 
-    public SQLiteDatabase getDb(){
-        return this.db;
+
+    public void beginTran(){
+        db.beginTransaction();
+    }
+
+    public void commit(){
+        db.endTransaction();
+    }
+
+    public void openDBConn()
+    {
+        db = helper.getWritableDatabase();
+    }
+
+    public void closeDBConn()
+    {
+        db.close();
     }
 
     public List<OfertaModel> getTopOfertas() {

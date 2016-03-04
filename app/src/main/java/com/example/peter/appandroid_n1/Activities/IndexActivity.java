@@ -20,14 +20,29 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+import com.example.peter.appandroid_n1.Constantes.ConstantesGlobales;
+import com.example.peter.appandroid_n1.Models.CategoriaModel;
 import com.example.peter.appandroid_n1.Models.OfertaModel;
 import com.example.peter.appandroid_n1.PageAdapters.CategoriaPagerAdapter;
 import com.example.peter.appandroid_n1.Persistence.CategoriaPersistence;
+import com.example.peter.appandroid_n1.Persistence.OfertaPersistence;
+import com.example.peter.appandroid_n1.Persistence.PersistenceManager;
 import com.example.peter.appandroid_n1.R;
 import com.example.peter.appandroid_n1.Servicios.CategoriaService;
+import com.example.peter.appandroid_n1.Servicios.InterfacesREST.InterfazRestCategoria;
+import com.example.peter.appandroid_n1.Servicios.InterfacesREST.InterfazRestOferta;
 import com.example.peter.appandroid_n1.Servicios.OfertaService;
+import com.example.peter.appandroid_n1.Servicios.RestAdapter.RestRequest;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class IndexActivity extends AppCompatActivity {
 
@@ -42,6 +57,9 @@ public class IndexActivity extends AppCompatActivity {
     private CategoriaPagerAdapter mPagerAdapter;
     private TabLayout mTabLayout;
 
+    private CategoriaPersistence categoriaPersistence;
+    private OfertaPersistence ofertaPersistence;
+
     //Contexto estático de la aplicación
     public static Context appContext;
 
@@ -54,6 +72,20 @@ public class IndexActivity extends AppCompatActivity {
      *  CODIGO PARA INICIALIZAR PRUEBAS
      */
     private void pruebasExec(){
+
+        //CategoriaPersistence categoriaPersistence= new CategoriaPersistence(this);
+        //List<CategoriaModel>categorias=new ArrayList<CategoriaModel>();
+        //CategoriaModel catModelSalud= new CategoriaModel(1,"Salud");
+        //CategoriaModel catModelDiversion= new CategoriaModel(2,"Diversion");
+        //CategoriaModel catModelElectrodomesticos= new CategoriaModel(3,"Electrodomesticos");
+        //CategoriaModel catModelMercado= new CategoriaModel(4,"Mercado");
+        //CategoriaModel catModelRestaurante= new CategoriaModel(5,"Restaurante");
+        //categorias.add(catModelSalud);
+        //categorias.add(catModelDiversion);
+        //categorias.add(catModelElectrodomesticos);
+        //categorias.add(catModelMercado);
+        //categorias.add(catModelRestaurante);
+        //categoriaPersistence.persistAll(categorias);
 
 
 //        //Flush de tablas
@@ -82,15 +114,53 @@ public class IndexActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Variables init
-        CategoriaService categoriaService = new CategoriaService();
-        categoriaService.pullAndStoreCategorias( this );
-        CategoriaPersistence persistenceCategoria = new CategoriaPersistence(this);
-        OfertaService ofertaService = new OfertaService();
+        //CategoriaService categoriaService = new CategoriaService();
+        //categoriaService.pullAndStoreCategorias( this );
+        new PersistenceManager(this);
+        categoriaPersistence = PersistenceManager.getInstance().getCategoriaPersistence();
+        ofertaPersistence = PersistenceManager.getInstance().getOfertaPersistence();
+        try
+        {
+            categoriaPersistence.openDBConn();
+            ofertaPersistence.openDBConn();
+        }
+        catch(SQLException e)
+        {
 
+        }
+        Map<String,String>f = new HashMap<String,String>();
+        Call<List<CategoriaModel>> call =
+                RestRequest.construct(ConstantesGlobales.URL_SERVER,true).create(InterfazRestCategoria.class).selectCategorias(f);
+        call.enqueue(new Callback<List<CategoriaModel>>() {
+            @Override
+            public void onResponse(Call<List<CategoriaModel>> call, Response<List<CategoriaModel>> response) {
+                try {
+                    categoriaPersistence.persistAll(response.body());
+                } catch (Exception e) {
 
-        //Pruebas de lo que sea
-        this.pruebasExec();
-        // END
+                }
+                inicializacionGUI();
+            }
+
+            @Override
+            public void onFailure(Call<List<CategoriaModel>> call, Throwable t) {
+
+            }
+        });
+
+        Call<List<OfertaModel>> callOferta=
+                RestRequest.construct(ConstantesGlobales.URL_SERVER,true).create(InterfazRestOferta.class).selectOfertas(f);
+        callOferta.enqueue(new Callback<List<OfertaModel>>() {
+            @Override
+            public void onResponse(Call<List<OfertaModel>> call, Response<List<OfertaModel>> response) {
+                ofertaPersistence.persistAll(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<OfertaModel>> call, Throwable t) {
+
+            }
+        });
 
         super.onCreate(savedInstanceState);
         appContext = this.getApplicationContext();
@@ -101,15 +171,7 @@ public class IndexActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mPagerAdapter = new CategoriaPagerAdapter(getSupportFragmentManager());
-        mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mPagerAdapter);
-        mTabLayout.setTabsFromPagerAdapter(mPagerAdapter);
 
-        mTabLayout.setupWithViewPager(mViewPager);
-        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
 
 
     }
@@ -134,6 +196,48 @@ public class IndexActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     *
+     */
+    @Override
+    protected void onResume()
+    {
+        try
+        {
+            categoriaPersistence.openDBConn();
+            ofertaPersistence.openDBConn();
+        }
+        catch(SQLException e)
+        {
+
+        }
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause()
+    {
+        categoriaPersistence.closeDBConn();
+        ofertaPersistence.closeDBConn();
+        super.onPause();
+    }
+
+    /**
+     *
+     */
+    private void inicializacionGUI() {
+        System.out.println("Construyo GUI");
+        mPagerAdapter = new CategoriaPagerAdapter(getSupportFragmentManager());
+        mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        // Set up the ViewPager with the sections adapter.
+        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager.setAdapter(mPagerAdapter);
+        mTabLayout.setTabsFromPagerAdapter(mPagerAdapter);
+
+        mTabLayout.setupWithViewPager(mViewPager);
+        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
     }
 
 

@@ -5,6 +5,7 @@ import android.app.Activity;
 import com.example.peter.appandroid_n1.Constantes.ConstantesGlobales;
 import com.example.peter.appandroid_n1.Models.CategoriaModel;
 import com.example.peter.appandroid_n1.Persistence.CategoriaPersistence;
+import com.example.peter.appandroid_n1.Persistence.PersistenceManager;
 import com.example.peter.appandroid_n1.Servicios.InterfacesREST.InterfazRestCategoria;
 import com.example.peter.appandroid_n1.Servicios.RestAdapter.RestRequest;
 
@@ -62,10 +63,10 @@ public class CategoriaService {
 
         try{
             List<CategoriaModel> lista = categoriasCall.execute().body();
-            CategoriaPersistence em = new CategoriaPersistence( activity );
-            em.getDb().beginTransaction();
+            CategoriaPersistence em = PersistenceManager.getInstance().getCategoriaPersistence();
+            em.beginTran();
             em.persistAll( lista );
-            em.getDb().endTransaction();
+            em.commit();
         }
         catch (IOException e){
             e.printStackTrace();
