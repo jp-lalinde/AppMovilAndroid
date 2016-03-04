@@ -5,9 +5,22 @@ import android.app.Activity;
 import com.example.peter.appandroid_n1.Constantes.ConstantesGlobales;
 import com.example.peter.appandroid_n1.Models.CategoriaModel;
 import com.example.peter.appandroid_n1.Persistence.CategoriaPersistence;
+import com.example.peter.appandroid_n1.Servicios.InterfacesREST.InterfazRestCategoria;
+import com.example.peter.appandroid_n1.Servicios.RestAdapter.RestRequest;
 
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by ASUS on 1/03/2016.
@@ -39,9 +52,24 @@ public class CategoriaService {
      * post:
      * @param activity - La actividad que hace el llamado
      */
-    public void pullCategorias(Activity activity) {
+    public void pullAndStoreCategorias(final Activity activity) {
 
+        InterfazRestCategoria caller =
+                RestRequest.construct( ConstantesGlobales.URL_SERVER , true ).create( InterfazRestCategoria.class );
+
+        Map<String,String> filtros = new HashMap<String,String>();
+        Call<List<CategoriaModel>> categoriasCall = caller.selectCategorias(filtros);
+
+        try{
+            List<CategoriaModel> lista = categoriasCall.execute().body();
+            CategoriaPersistence em = new CategoriaPersistence( activity );
+            em.getDb().beginTransaction();
+            em.persistAll( lista );
+            em.getDb().endTransaction();
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
     }
-
 
 }

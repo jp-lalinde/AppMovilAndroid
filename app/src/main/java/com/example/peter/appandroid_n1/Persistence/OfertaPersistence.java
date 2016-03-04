@@ -117,18 +117,6 @@ public class OfertaPersistence {
         return oferta;
     }
 
-    //Datos mock
-    public void insertarDatosMock()
-    {
-        System.out.println("Meto datos en la tabla de ofertas.");
-        db.execSQL("INSERT INTO " + ConstantesGlobales.OFERTA
-                        + " (" + ConstantesGlobales.OFERTA_ID + "," + ConstantesGlobales.OFERTA_PRECIO + ","
-                        + ConstantesGlobales.OFERTA_FECHA_INICIO + "," + ConstantesGlobales.OFERTA_FECHA_FIN + ","
-                        + ConstantesGlobales.OFERTA_FLYER + "," + ConstantesGlobales.OFERTA_ID_CATEGORIA + ") "
-                        + "VALUES("
-                        + 1 + ", " + 1000 + ", \'2016/03/03\', \'2016/04/03\', \'" + ConstantesGlobales.imgMock + "\', " + 0 + ")"
-        );
-    }
 
     /**
      * Persiste una lista de objetos oferteModel
