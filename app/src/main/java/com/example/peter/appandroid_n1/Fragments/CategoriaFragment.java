@@ -10,22 +10,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.peter.appandroid_n1.Activities.MostrarOfertaActivity;
-import com.example.peter.appandroid_n1.Constantes.ConstantesGlobales;
 import com.example.peter.appandroid_n1.CustomLists.IndexCustomList;
 import com.example.peter.appandroid_n1.Models.OfertaModel;
 import com.example.peter.appandroid_n1.Persistence.OfertaPersistence;
-import com.example.peter.appandroid_n1.Persistence.PersistenceManager;
 import com.example.peter.appandroid_n1.R;
-import com.example.peter.appandroid_n1.Servicios.CategoriaService;
-import com.example.peter.appandroid_n1.Servicios.OfertaService;
 
 import java.util.ArrayList;
 import java.util.List;

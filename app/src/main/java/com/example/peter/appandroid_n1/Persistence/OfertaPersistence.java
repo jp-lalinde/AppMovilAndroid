@@ -2,12 +2,10 @@ package com.example.peter.appandroid_n1.Persistence;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.example.peter.appandroid_n1.Constantes.ConstantesGlobales;
 import com.example.peter.appandroid_n1.Models.OfertaModel;
-import com.example.peter.appandroid_n1.Servicios.OfertaService;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

@@ -16,7 +16,7 @@ public class RestRequest {
     /**
      *
      * @param urlServer - url del servidor
-     * @param client - tipo de cliente http
+     * @param logging - true para mostrar el detalle del http body
      * @return
      */
     public static Retrofit  construct( String urlServer , boolean logging ){
