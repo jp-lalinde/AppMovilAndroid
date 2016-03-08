@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -60,6 +61,7 @@ public class IndexActivity extends AppCompatActivity {
     private CategoriaPersistence categoriaPersistence;
     private OfertaPersistence ofertaPersistence;
 
+
     //Contexto estático de la aplicación
     public static Context appContext;
 
@@ -71,58 +73,19 @@ public class IndexActivity extends AppCompatActivity {
     /**
      *  CODIGO PARA INICIALIZAR PRUEBAS
      */
-    private void pruebasExec(){
 
-        //CategoriaPersistence categoriaPersistence= new CategoriaPersistence(this);
-        //List<CategoriaModel>categorias=new ArrayList<CategoriaModel>();
-        //CategoriaModel catModelSalud= new CategoriaModel(1,"Salud");
-        //CategoriaModel catModelDiversion= new CategoriaModel(2,"Diversion");
-        //CategoriaModel catModelElectrodomesticos= new CategoriaModel(3,"Electrodomesticos");
-        //CategoriaModel catModelMercado= new CategoriaModel(4,"Mercado");
-        //CategoriaModel catModelRestaurante= new CategoriaModel(5,"Restaurante");
-        //categorias.add(catModelSalud);
-        //categorias.add(catModelDiversion);
-        //categorias.add(catModelElectrodomesticos);
-        //categorias.add(catModelMercado);
-        //categorias.add(catModelRestaurante);
-        //categoriaPersistence.persistAll(categorias);
-
-
-//        //Flush de tablas
-//        //categoriaService.truncateTables(this);
-//        //ofertaService.truncateTables(this);
-//
-//        //Prueba de datos en la tabla categoria
-//        System.out.println("El nombre de la categoria es " +persistenceCategoria.getNombreCategoria(1));
-//
-//        //Prueba de datos en la tabla oferta
-//        ofertaService.pullAndSave_TopOfertasByCategoria( this );
-//        //System.out.println("La fecha inicial de la oferta es "+ofertaService.getOfertaPorId(this,1).getFechaInicio());
-//        //System.out.println("ID de la categoria de la oferta es "+ofertaService.getOfertaPorId(this,1).getIdCategoria());
-//        // System.out.println("Llamo a todas las ofertas");
-//        //List<OfertaModel> ofertas= ofertaService.getTodasLasOfertasEnLocal(this);
-//        //System.out.println("Usando todas las ofertas, la fecha inicio es:"+ofertas.get(0).getFechaInicio());
-//
-//        //Insercion de datos mock en categoria
-//        //categoriaService.insertarDatosMock(this);
-//
-//        //Insercion de datos mock en oferta
-//        //ofertaService.insertarDatosMock(this);
-//        //FIN DATOS MOCK
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Variables init
         //CategoriaService categoriaService = new CategoriaService();
         //categoriaService.pullAndStoreCategorias( this );
-        new PersistenceManager(this);
-        categoriaPersistence = PersistenceManager.getInstance().getCategoriaPersistence();
-        ofertaPersistence = PersistenceManager.getInstance().getOfertaPersistence();
+        categoriaPersistence = new CategoriaPersistence(this.getApplicationContext());
+        ofertaPersistence = new OfertaPersistence(this.getApplicationContext());
+
         try
         {
             categoriaPersistence.openDBConn();
-            ofertaPersistence.openDBConn();
         }
         catch(SQLException e)
         {
@@ -139,12 +102,10 @@ public class IndexActivity extends AppCompatActivity {
                 } catch (Exception e) {
 
                 }
-                inicializacionGUI();
             }
 
             @Override
             public void onFailure(Call<List<CategoriaModel>> call, Throwable t) {
-
             }
         });
 
@@ -153,12 +114,19 @@ public class IndexActivity extends AppCompatActivity {
         callOferta.enqueue(new Callback<List<OfertaModel>>() {
             @Override
             public void onResponse(Call<List<OfertaModel>> call, Response<List<OfertaModel>> response) {
-                ofertaPersistence.persistAll(response.body());
+                try
+                {
+                    ofertaPersistence.persistAll(response.body());
+                }catch (Exception e)
+                {
+
+                }
+                inicializacionGUI();
             }
 
             @Override
             public void onFailure(Call<List<OfertaModel>> call, Throwable t) {
-
+                inicializacionGUI();
             }
         });
 
@@ -207,7 +175,6 @@ public class IndexActivity extends AppCompatActivity {
         try
         {
             categoriaPersistence.openDBConn();
-            ofertaPersistence.openDBConn();
         }
         catch(SQLException e)
         {
@@ -219,8 +186,7 @@ public class IndexActivity extends AppCompatActivity {
     @Override
     protected void onPause()
     {
-        categoriaPersistence.closeDBConn();
-        ofertaPersistence.closeDBConn();
+        //persistenceManager.closeDBConn();
         super.onPause();
     }
 
@@ -238,6 +204,7 @@ public class IndexActivity extends AppCompatActivity {
 
         mTabLayout.setupWithViewPager(mViewPager);
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
+
     }
 
 

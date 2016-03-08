@@ -6,12 +6,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.example.peter.appandroid_n1.Activities.IndexActivity;
-import com.example.peter.appandroid_n1.Fragments.CategoriaSaludFragment;
+import com.example.peter.appandroid_n1.Fragments.CategoriaFragment;
 import com.example.peter.appandroid_n1.Models.CategoriaModel;
 import com.example.peter.appandroid_n1.Persistence.CategoriaPersistence;
 import com.example.peter.appandroid_n1.Persistence.PersistenceManager;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +29,7 @@ public class CategoriaPagerAdapter extends FragmentStatePagerAdapter{
     {
         Bundle bundle= new Bundle();
         bundle.putInt("position", position);
-        CategoriaSaludFragment fragment = new CategoriaSaludFragment();
+        CategoriaFragment fragment = new CategoriaFragment();
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -38,18 +37,14 @@ public class CategoriaPagerAdapter extends FragmentStatePagerAdapter{
     @Override
     public int getCount()
     {
-        CategoriaPersistence persistencia = PersistenceManager.getInstance().getCategoriaPersistence();
+        CategoriaPersistence persistencia = new CategoriaPersistence(IndexActivity.appContext);
         List<CategoriaModel>categorias = new ArrayList<CategoriaModel>();
-        try
-        {
-            persistencia.openDBConn();
-            categorias = persistencia.getCategorias();
-            persistencia.closeDBConn();
-        }
-        catch(SQLException e)
-        {
 
-        }
+            //persistencia.openDBConn();
+            categorias = persistencia.getCategorias();
+            //persistencia.closeDBConn();
+
+
 
         return categorias.size();
     }
@@ -57,18 +52,13 @@ public class CategoriaPagerAdapter extends FragmentStatePagerAdapter{
     @Override
     public CharSequence getPageTitle(int position) {
 
-        CategoriaPersistence categoriaPersistence= PersistenceManager.getInstance().getCategoriaPersistence();
+        CategoriaPersistence persistencia = new CategoriaPersistence(IndexActivity.appContext);
         String nombreCategoria = "";
-        try
-        {
-            categoriaPersistence.openDBConn();
-            nombreCategoria = categoriaPersistence.getNombreCategoria(new Long(position+1));
-            categoriaPersistence.closeDBConn();
-        }
-        catch(SQLException e)
-        {
 
-        }
+            //persistence.openDBConn();
+            nombreCategoria = persistencia.getNombreCategoria(new Long(position+1));
+            //persistence.closeDBConn();
+
         return nombreCategoria;
     }
 }

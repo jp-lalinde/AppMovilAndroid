@@ -2,6 +2,7 @@ package com.example.peter.appandroid_n1.Servicios;
 
 import android.app.Activity;
 
+import com.example.peter.appandroid_n1.Activities.IndexActivity;
 import com.example.peter.appandroid_n1.Constantes.ConstantesGlobales;
 import com.example.peter.appandroid_n1.Models.OfertaModel;
 import com.example.peter.appandroid_n1.Persistence.OfertaPersistence;
@@ -50,7 +51,7 @@ public class OfertaService {
     {
         InterfazRestCategoria categoriasApi =
                 RestRequest.construct( ConstantesGlobales.URL_SERVER, true ).create(InterfazRestCategoria.class);
-        OfertaPersistence em = PersistenceManager.getInstance().getOfertaPersistence();
+        OfertaPersistence em = new OfertaPersistence(IndexActivity.appContext);
         try {
             CountDTO countdto = categoriasApi.countCategorias().execute().body();
             Map<String,String> filtros = new HashMap<String,String>();

@@ -2,6 +2,7 @@ package com.example.peter.appandroid_n1.Servicios;
 
 import android.app.Activity;
 
+import com.example.peter.appandroid_n1.Activities.IndexActivity;
 import com.example.peter.appandroid_n1.Constantes.ConstantesGlobales;
 import com.example.peter.appandroid_n1.Models.CategoriaModel;
 import com.example.peter.appandroid_n1.Persistence.CategoriaPersistence;
@@ -63,7 +64,7 @@ public class CategoriaService {
 
         try{
             List<CategoriaModel> lista = categoriasCall.execute().body();
-            CategoriaPersistence em = PersistenceManager.getInstance().getCategoriaPersistence();
+            CategoriaPersistence em = new CategoriaPersistence(IndexActivity.appContext);
             em.beginTran();
             em.persistAll( lista );
             em.commit();

@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.peter.appandroid_n1.Persistence.PersistenceManager;
 import com.example.peter.appandroid_n1.R;
 
 public class MostrarCategoriasActivity extends AppCompatActivity{

@@ -1,40 +1,71 @@
 package com.example.peter.appandroid_n1.Persistence;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+
+import com.example.peter.appandroid_n1.Models.CategoriaModel;
+import com.example.peter.appandroid_n1.Models.OfertaModel;
+
+import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Created by ASUS on 3/03/2016.
  */
 public class PersistenceManager {
 
-    private static PersistenceManager instance = null;
-    private CategoriaPersistence categoriaPersistence;
-    private OfertaPersistence ofertaPersistence;
+    protected static PersistenceManager instance = null;
+    private SQLiteDatabase db;
+    private DBHelper helper;
 
-    public PersistenceManager(Context ctx)
+    protected PersistenceManager(Context ctx)
     {
-        DBHelper helper = new DBHelper(ctx.getApplicationContext());
-        categoriaPersistence = new CategoriaPersistence(helper);
-        ofertaPersistence = new OfertaPersistence(helper);
-        instance=this;
+        this.helper = new DBHelper(ctx.getApplicationContext());
+        this.db = helper.getWritableDatabase();
     }
 
     /**
      * Métodos
      */
 
-    public static PersistenceManager getInstance()
+    protected static PersistenceManager getInstance(Context ctx)
     {
+        if( instance == null ){
+            instance = new PersistenceManager(ctx);
+        }
         return instance;
     }
 
-    public CategoriaPersistence getCategoriaPersistence()
-    {
-        return categoriaPersistence;
+
+    public void beginTran(){
+        db.beginTransaction();
     }
 
-    public OfertaPersistence getOfertaPersistence()
-    {
-        return ofertaPersistence;
+    public void commit(){
+        db.endTransaction();
     }
+
+
+    /**
+     *
+     */
+    public void openDBConn() throws SQLException
+    {
+        db = helper.getWritableDatabase();
+    }
+
+    /**
+     *
+     */
+    public void closeDBConn()
+    {
+        db.close();
+    }
+
+
+    protected SQLiteDatabase getDb() {
+        return db;
+    }
+
+
 }
